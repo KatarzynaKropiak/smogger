@@ -16,14 +16,11 @@ public class StravaClientTest {
     @Test
     void shouldGetToken() {
         //Given
-        String code = "b819c934d09823a08985f2c4d47a150ebddc9dd7";
+        String code = "75509552c00ca7f2d1fce05325ff7b0024723056";
         //When
         TokenResponse token = stravaClient.exchangeToken(code);
         //Then
         Assertions.assertNotNull(token);
     }
 
-    // shouldGetActivities {
-    //  stravaClient.getActivities(athleteId)
-    // }
 }

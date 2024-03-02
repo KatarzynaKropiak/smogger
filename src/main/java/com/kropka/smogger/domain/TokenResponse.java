@@ -9,4 +9,5 @@ public class TokenResponse {
     String token_type;
     String refresh_token;
     String access_token;
+    Athlete athlete;
 }
