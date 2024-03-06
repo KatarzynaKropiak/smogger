@@ -1,14 +1,20 @@
 package com.kropka.smogger.client;
 
 import com.kropka.smogger.config.StravaConfiguration;
+import com.kropka.smogger.domain.Activity;
 import com.kropka.smogger.manager.TokenManager;
 import com.kropka.smogger.domain.TokenResponse;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
 import org.springframework.web.client.RestTemplate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
+import org.springframework.http.HttpHeaders;
 
 import java.net.URI;
+import java.util.Arrays;
+import java.util.List;
 
 @Component
 @RequiredArgsConstructor
@@ -29,14 +35,26 @@ public class StravaClient {
                 .encode()
                 .toUri();
 
-        return restTemplate.postForObject(url, null, TokenResponse.class);
-
+        TokenResponse response = restTemplate.postForObject(url, null, TokenResponse.class);
+        tokenManager.storeToken(response.getAthlete().getId(), response.getAccess_token());
+        System.out.println("TO JEST TOKEN: " + response.getAccess_token());
+        return response;
     }
 
-    // List<Activity> getActivities(String athleteId) {
-    // token = tokenManager.retrieveToken(athleteId)
-    // result = http GET "https://www.strava.com/api/v3/athlete/activities?before=&after=&page=&per_page=" "Authorization: Bearer [[token]]"
-    // return result
-    // }
+     List<Activity> getActivities(int id) {
+     String token = tokenManager.retrieveToken(id);
+     System.out.println("TO JEST TEN SAM TOKEN: " + token);
+         URI url = UriComponentsBuilder.fromHttpUrl(stravaConfiguration.getActivitiesEnd())
+                 .build()
+                 .encode()
+                 .toUri();
+
+         HttpHeaders headers = new HttpHeaders();
+         headers.set("Authorization", "Bearer " + token);
+         HttpEntity<?> httpEntity = new HttpEntity<Object>(headers);
+
+         Activity[] activities = restTemplate.exchange(url, HttpMethod.GET, httpEntity, Activity[].class).getBody();
+         return Arrays.asList(activities);
+     }
 
 }

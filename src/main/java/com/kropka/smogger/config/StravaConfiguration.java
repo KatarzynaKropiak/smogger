@@ -12,6 +12,8 @@ public class StravaConfiguration {
     private String oAuthTokenEnd;
     @Value("${strava.api.endpoint.act}")
     private String activityEnd;
+    @Value("${strava.api.endpoint.acts}")
+    private String activitiesEnd;
     @Value("${strava.client_id}")
     private int clientId;
     @Value("${strava.client_secret}")

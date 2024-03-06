@@ -9,18 +9,18 @@ import java.util.Map;
 @Component
 @Scope("singleton")
 public class TokenManager {
-    private final Map<String, String> tokens;
+    private final Map<Integer, String> tokens;
 
     private TokenManager() {
-        this.tokens = new HashMap<String, String>();
+        this.tokens = new HashMap<Integer, String>();
     }
 
-    public String retrieveToken(final String id) {
+    public String retrieveToken(final int id) {
         final String token = this.tokens.get(id);
         return token;
     }
 
-    public void storeToken(final String id, final String token) {
+    public void storeToken(final int id, final String token) {
         this.tokens.put(id, token);
     }
 }
