@@ -4,16 +4,15 @@ import com.kropka.smogger.config.StravaConfiguration;
 import com.kropka.smogger.domain.Activity;
 import com.kropka.smogger.manager.TokenManager;
 import com.kropka.smogger.domain.TokenResponse;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
+import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
-import org.springframework.http.HttpHeaders;
 
 import java.net.URI;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 @Component
@@ -41,8 +40,8 @@ public class StravaClient {
         return response;
     }
 
-     List<Activity> getActivities(int id) {
-     String token = tokenManager.retrieveToken(id);
+     public List<Activity> getActivities(int athleteId) {
+     String token = tokenManager.retrieveToken(athleteId);
      System.out.println("TO JEST TEN SAM TOKEN: " + token);
          URI url = UriComponentsBuilder.fromHttpUrl(stravaConfiguration.getActivitiesEnd())
                  .build()
@@ -51,10 +50,16 @@ public class StravaClient {
 
          HttpHeaders headers = new HttpHeaders();
          headers.set("Authorization", "Bearer " + token);
-         HttpEntity<?> httpEntity = new HttpEntity<Object>(headers);
 
-         Activity[] activities = restTemplate.exchange(url, HttpMethod.GET, httpEntity, Activity[].class).getBody();
-         return Arrays.asList(activities);
+         HttpEntity<?> httpEntity = new HttpEntity<>(headers);
+
+         ResponseEntity<Activity[]> response = restTemplate.exchange(url, HttpMethod.GET, httpEntity, Activity[].class);
+         if (response.getStatusCode() == HttpStatus.OK) {
+             Activity[] activities = response.getBody();
+             return Arrays.asList(activities);
+         } else {
+             return Collections.emptyList();
+         }
      }
 
 }

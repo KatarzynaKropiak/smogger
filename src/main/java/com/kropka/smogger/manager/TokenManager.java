@@ -23,4 +23,4 @@ public class TokenManager {
     public void storeToken(final int id, final String token) {
         this.tokens.put(id, token);
     }
-}
+    }
