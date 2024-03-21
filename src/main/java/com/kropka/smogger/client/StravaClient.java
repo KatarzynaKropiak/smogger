@@ -4,6 +4,8 @@ import com.kropka.smogger.config.StravaConfiguration;
 import com.kropka.smogger.domain.Activity;
 import com.kropka.smogger.manager.TokenManager;
 import com.kropka.smogger.domain.TokenResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
 import lombok.RequiredArgsConstructor;
@@ -18,12 +20,15 @@ import java.util.List;
 @Component
 @RequiredArgsConstructor
 public class StravaClient {
+
+    private final static Logger LOGGER = LoggerFactory.getLogger(StravaClient.class);
+    private final static String GRANT_TYPE = "authorization_code";
+
     private final StravaConfiguration stravaConfiguration;
     private final TokenManager tokenManager;
     private final RestTemplate restTemplate;
-    private final static String GRANT_TYPE = "authorization_code";
 
-    public TokenResponse exchangeToken(String code) {
+    public TokenResponse exchangeCodeForToken(String code) {
 
         URI url = UriComponentsBuilder.fromHttpUrl(stravaConfiguration.getOAuthTokenEnd())
                 .queryParam("client_id", stravaConfiguration.getClientId())
@@ -36,13 +41,14 @@ public class StravaClient {
 
         TokenResponse response = restTemplate.postForObject(url, null, TokenResponse.class);
         tokenManager.storeToken(response.getAthlete().getId(), response.getAccess_token());
-        System.out.println("TO JEST TOKEN: " + response.getAccess_token());
+        LOGGER.info("THIS IS ATHLETE ID: " + response.getAthlete().getId());
+        LOGGER.info("THIS IS TOKEN: " + response.getAccess_token());
         return response;
     }
 
      public List<Activity> getActivities(int athleteId) {
      String token = tokenManager.retrieveToken(athleteId);
-     System.out.println("TO JEST TEN SAM TOKEN: " + token);
+         LOGGER.info("THIS IS THE SAME TOKEN: " + token);
          URI url = UriComponentsBuilder.fromHttpUrl(stravaConfiguration.getActivitiesEnd())
                  .build()
                  .encode()
