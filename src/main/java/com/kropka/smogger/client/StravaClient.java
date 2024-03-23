@@ -30,7 +30,7 @@ public class StravaClient {
 
     public TokenResponse exchangeCodeForToken(String code) {
 
-        URI url = UriComponentsBuilder.fromHttpUrl(stravaConfiguration.getOAuthTokenEnd())
+        URI url = UriComponentsBuilder.fromHttpUrl(stravaConfiguration.getOAuthTokenEndpoint())
                 .queryParam("client_id", stravaConfiguration.getClientId())
                 .queryParam("client_secret", stravaConfiguration.getSecretClient())
                 .queryParam("code", code)
@@ -49,7 +49,7 @@ public class StravaClient {
      public List<Activity> getActivities(int athleteId) {
      String token = tokenManager.retrieveToken(athleteId);
          LOGGER.info("THIS IS THE SAME TOKEN: " + token);
-         URI url = UriComponentsBuilder.fromHttpUrl(stravaConfiguration.getActivitiesEnd())
+         URI url = UriComponentsBuilder.fromHttpUrl(stravaConfiguration.getActivitiesEndpoint())
                  .build()
                  .encode()
                  .toUri();

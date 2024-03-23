@@ -38,7 +38,7 @@ public class StravaClientTest {
     public void testGetActivitiesWithSameToken() {
         String mockedToken = "mockedToken";
         Mockito.when(tokenManager.retrieveToken(Mockito.anyInt())).thenReturn(mockedToken);
-        Mockito.when(stravaConfiguration.getActivitiesEnd()).thenReturn("https://test.com");
+        Mockito.when(stravaConfiguration.getActivitiesEndpoint()).thenReturn("https://test.com");
 
         Activity[] mockActivities = {new Activity(), new Activity()};
         ResponseEntity<Activity[]> mockResponseEntity = new ResponseEntity<>(mockActivities, HttpStatus.OK);

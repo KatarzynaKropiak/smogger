@@ -9,18 +9,17 @@ import org.springframework.stereotype.Component;
 public class StravaConfiguration {
 
     @Value("${strava.api.endpoint.oauth.token}")
-    private String oAuthTokenEnd;
+    private String oAuthTokenEndpoint;
     @Value("${strava.api.endpoint.act}")
-    private String activityEnd;
+    private String activityEndpoint;
     @Value("${strava.api.endpoint.acts}")
-    private String activitiesEnd;
+    private String activitiesEndpoint;
     @Value("${strava.client_id}")
     private int clientId;
     @Value("${strava.client_secret}")
     private String secretClient;
     @Value("${strava.grant_type}")
     private String grantType;
-    @Value("${strava.access_token}")
-    private String accessToken;
+
 }
 
