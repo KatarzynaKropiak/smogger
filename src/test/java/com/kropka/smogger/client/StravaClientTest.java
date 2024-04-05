@@ -1,7 +1,7 @@
 package com.kropka.smogger.client;
 
 import com.kropka.smogger.config.StravaConfiguration;
-import com.kropka.smogger.domain.Activity;
+import com.kropka.smogger.domain.StravaActivity;
 import com.kropka.smogger.manager.TokenManager;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -40,16 +40,16 @@ public class StravaClientTest {
         Mockito.when(tokenManager.retrieveToken(Mockito.anyInt())).thenReturn(mockedToken);
         Mockito.when(stravaConfiguration.getActivitiesEndpoint()).thenReturn("https://test.com");
 
-        Activity[] mockActivities = {new Activity(), new Activity()};
-        ResponseEntity<Activity[]> mockResponseEntity = new ResponseEntity<>(mockActivities, HttpStatus.OK);
-        Mockito.when(restTemplate.exchange(Mockito.any(URI.class), Mockito.eq(HttpMethod.GET), Mockito.any(HttpEntity.class), Mockito.eq(Activity[].class)))
+        StravaActivity[] mockActivities = {new StravaActivity(), new StravaActivity()};
+        ResponseEntity<StravaActivity[]> mockResponseEntity = new ResponseEntity<>(mockActivities, HttpStatus.OK);
+        Mockito.when(restTemplate.exchange(Mockito.any(URI.class), Mockito.eq(HttpMethod.GET), Mockito.any(HttpEntity.class), Mockito.eq(StravaActivity[].class)))
                 .thenReturn(mockResponseEntity);
 
-        List<Activity> activities = stravaClient.getActivities(123);
+        List<StravaActivity> activities = stravaClient.getActivities(123);
 
         Mockito.verify(tokenManager).retrieveToken(123);
 
-        Mockito.verify(restTemplate).exchange(Mockito.any(URI.class), Mockito.eq(HttpMethod.GET), Mockito.any(HttpEntity.class), Mockito.eq(Activity[].class));
+        Mockito.verify(restTemplate).exchange(Mockito.any(URI.class), Mockito.eq(HttpMethod.GET), Mockito.any(HttpEntity.class), Mockito.eq(StravaActivity[].class));
 
         Assertions.assertNotNull(activities);
         Assertions.assertEquals(2, activities.size());

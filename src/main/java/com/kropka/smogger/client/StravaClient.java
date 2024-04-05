@@ -1,7 +1,7 @@
 package com.kropka.smogger.client;
 
 import com.kropka.smogger.config.StravaConfiguration;
-import com.kropka.smogger.domain.Activity;
+import com.kropka.smogger.domain.StravaActivity;
 import com.kropka.smogger.manager.TokenManager;
 import com.kropka.smogger.domain.TokenResponse;
 import org.slf4j.Logger;
@@ -46,7 +46,7 @@ public class StravaClient {
         return response;
     }
 
-     public List<Activity> getActivities(int athleteId) {
+     public List<StravaActivity> getActivities(int athleteId) {
      String token = tokenManager.retrieveToken(athleteId);
          LOGGER.info("THIS IS THE SAME TOKEN: " + token);
          URI url = UriComponentsBuilder.fromHttpUrl(stravaConfiguration.getActivitiesEndpoint())
@@ -59,9 +59,9 @@ public class StravaClient {
 
          HttpEntity<?> httpEntity = new HttpEntity<>(headers);
 
-         ResponseEntity<Activity[]> response = restTemplate.exchange(url, HttpMethod.GET, httpEntity, Activity[].class);
+         ResponseEntity<StravaActivity[]> response = restTemplate.exchange(url, HttpMethod.GET, httpEntity, StravaActivity[].class);
          if (response.getStatusCode() == HttpStatus.OK) {
-             Activity[] activities = response.getBody();
+             StravaActivity[] activities = response.getBody();
              return Arrays.asList(activities);
          } else {
              return Collections.emptyList();

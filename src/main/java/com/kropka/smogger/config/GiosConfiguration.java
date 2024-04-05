@@ -8,6 +8,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class GiosConfiguration {
 
-    @Value("${gios.api.endpoint.stationId}")
-    private String stationEndPoint;
+    @Value("${gios.api.endpoint.aq}")
+    private String aqendpoint;
+
+    @Value("${gios.api.endpoint.findAll}")
+    private String allStations;
 }

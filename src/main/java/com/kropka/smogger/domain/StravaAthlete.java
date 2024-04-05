@@ -3,6 +3,6 @@ package com.kropka.smogger.domain;
 import lombok.Data;
 
 @Data
-public class Athlete {
+public class StravaAthlete {
     int id;
 }
