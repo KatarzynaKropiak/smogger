@@ -23,11 +23,14 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'com.github.danshannon:javastrava-api:1.0.3'
+	implementation 'org.webjars:jquery:3.4.1'
+	implementation 'org.webjars:bootstrap:4.3.1'
+	implementation 'org.webjars:webjars-locator-core'
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.boot:spring-boot-test-autoconfigure'
+
 
 }
 
